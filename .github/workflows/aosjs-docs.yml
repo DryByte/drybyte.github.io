@@ -13,6 +13,10 @@ jobs:
         with:
           name: drybyte/aos.js
 
+      - run: |
+          cd AoS.js
+          ls
+
       - name: Setup nodejs
         uses: actions/setup-node@v3
         with:
@@ -26,4 +30,4 @@ jobs:
         run: npm run generate-docs
 
       - name: Setup docs structure
-        run: echo ls
+        run: ls
