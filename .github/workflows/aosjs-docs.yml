@@ -12,11 +12,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           name: drybyte/aos.js
-
-      - run: |
-          ls
-          cd AoS.js
-          ls
+          path: ./
 
       - name: Setup nodejs
         uses: actions/setup-node@v3
