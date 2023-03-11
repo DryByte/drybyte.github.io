@@ -4,6 +4,7 @@ on: [repository_dispatch]
 jobs:
   gen-docs:
     runs-on: [ubuntu-latest]
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -44,5 +45,13 @@ jobs:
         with:
           path: ./
 
-      - name: Deploy website
+  deploy:
+    needs: gen-docs
+
+    runs-on: [ubuntu-latest]
+    permissions:
+      pages: write
+      id-token: write
+
+    - name: Deploy website
         uses: actions/deploy-pages@v1
