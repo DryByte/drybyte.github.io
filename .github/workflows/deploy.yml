@@ -1,5 +1,5 @@
-name: AoS Docs Generator
-on: [repository_dispatch]
+name: Deploy Github Pages
+on: [repository_dispatch, push]
 
 jobs:
   gen-docs:
