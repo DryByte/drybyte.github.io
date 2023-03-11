@@ -23,6 +23,7 @@ jobs:
       - name: Install npm packages
         run: |
           cd aos.js
+          ls
           npm ci
 
       - name: Compile docs
