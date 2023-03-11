@@ -11,8 +11,13 @@ jobs:
       - name: Checkout aos.js repository
         uses: actions/checkout@v3
         with:
-          name: drybyte/aos.js
+          repository: drybyte/aos.js
           path: ./
+
+      - run: |
+          ls
+          cd AoS.js
+          ls
 
       - name: Setup nodejs
         uses: actions/setup-node@v3
