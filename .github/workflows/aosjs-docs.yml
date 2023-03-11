@@ -35,4 +35,9 @@ jobs:
           rm ./aos.js/docs/.gitignore
           mv ./aos.js/docs ./
           rm -rf ./aos.js
-          ls
+
+      - name: Compress to tar
+        run: tar -zcvf github-pages ./*
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
