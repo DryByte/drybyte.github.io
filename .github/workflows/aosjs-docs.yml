@@ -21,10 +21,18 @@ jobs:
           cache-dependency-path: ./aos.js
 
       - name: Install npm packages
-        run: npm ci
+        run: |
+          cd aos.js
+          npm ci
 
       - name: Compile docs
-        run: npm run generate-docs
+        run: |
+          cd aos.js
+          npm run generate-docs
 
       - name: Setup docs structure
-        run: ls
+        run: |
+          echo "-- Main repo"
+          ls
+          echo "-- Aos.js docs"
+          ls ./aos.js/docs
