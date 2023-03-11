@@ -14,6 +14,7 @@ jobs:
           name: drybyte/aos.js
 
       - run: |
+          ls
           cd AoS.js
           ls
 
