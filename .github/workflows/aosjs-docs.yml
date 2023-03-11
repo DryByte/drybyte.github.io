@@ -32,7 +32,7 @@ jobs:
 
       - name: Setup docs structure
         run: |
-          echo "-- Main repo"
+          rm ./aos.js/docs/.gitignore
+          mv ./aos.js/docs ./
+          rm -rf ./aos.js
           ls
-          echo "-- Aos.js docs"
-          ls ./aos.js/docs
