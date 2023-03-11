@@ -14,16 +14,11 @@ jobs:
           repository: drybyte/aos.js
           path: ./aos.js
 
-      - run: |
-          ls
-          cd aos.js
-          ls
-
       - name: Setup nodejs
         uses: actions/setup-node@v3
         with:
           node-version: 19.7.x
-          cache: npm
+          cache-dependency-path: ./aos.js
 
       - name: Install npm packages
         run: npm ci
