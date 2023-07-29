@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Spades List</title>
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="./serverlist.css">
+</head>
+<body>
+	<div id="navbar">
+		<ul>
+			<li><button onclick="updateList()">Update</button></li>
+			<li><p>Players: <span id="current_players"></span></p></li>
+			<li><p>Servers: <span id="current_servers"></span></p></li>
+		</ul>
+	</div>
+
+	<div id="tabela">
+		<!-- NEON LIGHTS -->
+		<span></span>
+		<span></span>
+		<span></span>
+		<span></span>
+		<table>
+			<thead>
+				<tr>
+					<th onclick="sortBy('Server')">Server</th>
+					<th>Players</th>
+					<th>Map</th>
+					<th>Mode</th>
+					<th>Country</th>
+				</tr>
+			</thead>
+			<tbody id="ServerList"></tbody>
+		</table>
+	</div>
+
+<script type="text/javascript">
+var tbl = document.getElementById("ServerList");
+var elem_players = document.getElementById("current_players");
+var elem_servers = document.getElementById("current_servers");
+var opened, servers;
+
+function copyServerIP(svaddr){
+	let txtarea = document.createElement("textarea");
+	txtarea.value = svaddr;
+	document.getElementById("tabela").appendChild(txtarea);
+
+	txtarea.focus();
+	txtarea.select();
+	document.execCommand('copy');
+
+	txtarea.remove();
+}
+function joinServer(svaddr){
+	var nwindow = window.open(svaddr, '_blank')
+	nwindow.document.write(`<p>Joining on <b>${svaddr}</b>...</p>`)
+}
+
+function getStyle(element, name){
+    let styles = element.getAttribute('style')
+
+    if (styles){
+	    for (style of styles.split(";")){
+	    	styleSettings = style.replace(/ /g, '').split(":");
+	    	if (styleSettings[0] == name) {
+	    		return styleSettings[1]
+	    	}
+	    }
+	}
+
+    return "none"
+}
+
+
+function serverInfos(svId){
+	if (opened && opened != svId) CloseInfos();
+
+	let tableRow = document.getElementById(svId)
+	let serverInfos = tableRow.childNodes[0].childNodes[1]
+
+	let conScale = getStyle(serverInfos, "transform") == "scaleY(1)" ? "scaleY(0)":"scaleY(1)";
+	let conDisplay = getStyle(serverInfos, "display") == "show" ? "none" : "show"
+	if(conScale == "scaleY(1)"){opened = svId;}else{opened = null;}
+	
+	tableRow.setAttribute('style', `background-color: ${getStyle(tableRow, "background-color") == "none" ? 'black' : 'none'};`)
+	serverInfos.setAttribute('style', `display: ${conDisplay}; transform: ${conScale};`)
+	window.scrollTo(0, tableRow.offsetTop);
+}
+
+function CloseInfos(){
+	let openedElem = document.getElementById(opened);
+	let toClose = openedElem.childNodes[0].childNodes[1];
+
+	openedElem.setAttribute('style', 'background-color: none;')
+	toClose.setAttribute('style', 'display: none; transform: scaleY(0);')
+}
+
+function clearList(){
+	tbl.innerHTML = ''
+	elem_players.innerHTML = "0"
+	elem_servers.innerHTML = "0"
+}
+
+function updateList(){
+	clearList()
+	$.ajax({
+		url: "https://services.buildandshoot.com/serverlist.json",
+		type: "GET",
+		success: (res) => {
+			var servers = res;
+			let crr_players = 0;
+			let crr_servers = servers.length;
+
+			for (arrayS of servers.sort((v1,v2) => v2.players_current-v1.players_current)){
+				let trElem = document.createElement("tr");
+				trElem.setAttribute('onclick', `serverInfos('s${servers.indexOf(arrayS)}')`)
+				trElem.setAttribute('id', `s${servers.indexOf(arrayS)}`)
+				if(arrayS.players_current == arrayS.players_max) trElem.setAttribute('class', 'fullServer');
+				if(arrayS.players_current < 1) trElem.setAttribute('class', 'withoutPlayers');
+
+				tbl.appendChild(trElem);
+
+				let name = document.createElement("td");
+				name.innerHTML = arrayS.name;
+
+				let players = document.createElement("td");
+				players.innerHTML = `${arrayS.players_current}/${arrayS.players_max}`;
+				crr_players += arrayS.players_current
+
+				let map = document.createElement("td");
+				map.innerHTML = arrayS.map;
+
+				let mode = document.createElement("td");
+				mode.innerHTML = arrayS.game_mode;
+
+				let country = document.createElement("td");
+				country.innerHTML = arrayS.country;
+
+				trElem.appendChild(name);
+				trElem.appendChild(players);
+				trElem.appendChild(map);
+				trElem.appendChild(mode);
+				trElem.appendChild(country);
+
+				let infos = document.createElement("div");
+				infos.setAttribute("style", "display: none; transform: scaleY(0);")
+				name.appendChild(infos)
+
+				let serverAddr = document.createElement("p");
+				serverAddr.innerHTML = arrayS.identifier;
+				infos.appendChild(serverAddr)
+
+				let btnCopy = document.createElement("button");
+				btnCopy.innerHTML = "Copy IP";
+				btnCopy.setAttribute('onclick', `copyServerIP('${arrayS.identifier}')`)
+				infos.appendChild(btnCopy)
+
+				let joinServer = document.createElement("button");
+				joinServer.innerHTML = "Join Server";
+				joinServer.setAttribute('onclick', `joinServer('${arrayS.identifier}')`)
+				infos.appendChild(joinServer)
+			}
+
+			elem_players.innerHTML = crr_players
+			elem_servers.innerHTML = crr_servers
+		}
+	})
+	
+}
+updateList()
+</script>
+
+</body>
+</html>

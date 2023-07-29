@@ -1,0 +1,209 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+* {
+	margin: 0;
+	padding: 0;
+}
+body {
+	background-color: #08041a;
+}
+
+#navbar {
+	position: fixed;
+	width: 13vw;
+	height: 100%;
+	background-color: #262236;
+	box-shadow: 0px 5px 10px black;
+	margin-bottom: 10px;
+	z-index: 10;
+}
+
+#navbar li{
+	list-style: none;
+	margin-top: 5%;
+	color: white;
+	margin-left: 5%;
+}
+
+#navbar button {
+	font-size: 4vh;
+}
+
+#navbar p {
+	font-size: 5vh;
+}
+
+body {
+	font-family: 'Bebas Neue', cursive;
+}
+
+th {
+	color: #e6e6e6;
+	width: 100%;
+	padding: 10px;
+	border-bottom: solid;
+	border-color: #110f1a;
+}
+
+/* Fix the size for being better to see the server name and map*/
+#tabela > table>thead th:nth-child(1){
+	width: 60%;
+}
+#tabela > table>thead th:nth-child(2){
+	width: 10%;
+}
+#tabela > table>thead th:nth-child(3){
+	width: 22%;
+}
+
+#tabela {
+	font-size: 3vh;
+	color: #d5d950;/*#7a7491*/
+	position: relative;
+	border-collapse: collapse;
+	background-color: #1c182e;
+	width: 85%;
+	float: right;
+	margin-right: 1%;
+	overflow: hidden;
+	/*transform: scale(0.99);*/
+	box-shadow: 0px 5px 15px 10px rgba(0, 0, 0, 0.9);
+	/*border: dashed green;*/
+}
+
+th:nth-child(odd){
+	background-color: #2a263d;
+}
+
+#tabela span{
+	box-shadow: 0 0 10px rgba(48, 0, 255, 0.8), 0 0 40px rgba(105, 93, 158, 0.8),
+	0 0 80px rgba(137, 117, 224, 0.8);
+}
+
+/* Em cima ESQUERDA->DIREITA*/
+#tabela span:nth-child(1){
+	position: absolute;
+	top: 0;
+	width: 100%;
+	height: 2px;
+	background-image: linear-gradient(to right, transparent, #ffffff);
+	animation: animateRight 2s linear infinite;
+}
+
+/* Em baixo DIREITA->ESQUERDA*/
+#tabela span:nth-child(2){
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height: 3px;
+	background-image: linear-gradient(to left, transparent, #ffffff);
+	animation: animateLeft 2s linear infinite;
+	animation-delay: 2s;
+}
+
+/* Na direita CIMA->BAIXO*/
+#tabela span:nth-child(3){
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 2px;
+	height: 100%;
+	background-image: linear-gradient(to bottom, transparent, #ffffff);
+	animation: animateDown 2s linear infinite;
+	animation-delay: 1s;
+}
+
+/* Na esquerda BAIXO-> CIMA*/
+#tabela span:nth-child(4){
+	position: absolute;
+	bottom: 0;
+	width: 2px;
+	height: 100%;
+	background-image: linear-gradient(to top, transparent, #ffffff);
+	animation: animateUp 2s linear infinite;
+	animation-delay: 1s;
+}
+
+@keyframes animateRight{
+	0% {
+		transform: translateX(-100%);
+	}
+	100% {
+		transform: translateX(100%);
+	}
+}
+@keyframes animateLeft{
+	0% {
+		transform: translateX(100%);
+	}
+	100% {
+		transform: translateX(-100%);
+	}
+}
+@keyframes animateDown{
+	0% {
+		transform: translateY(-100%);
+	}
+	100% {
+		transform: translateY(100%);
+	}
+}
+@keyframes animateUp{
+	0% {
+		transform: translateY(100%);
+	}
+	100% {
+		transform: translateY(-100%);
+	}
+}
+
+#ServerList > tr:hover {
+	color: white;/*rgb(10, 5, 10)*/
+	background-color: #5c5670;
+}
+
+#ServerList > tr > td > div {
+	color: white;/*rgb(10, 5, 10)*/
+	width: 100%;
+	height: auto;
+	/*background-color: rgba(0, 0, 0, 0.99);*/
+	transform-origin: left top;
+	transition: 5s;
+	animation: animateDivOpen 0.5s;
+}
+
+td > div > button:hover{
+	color: white;
+	z-index: 100;
+	border-color: green;
+}
+
+td > div > button {
+	display: inline-block;
+	text-align: center;
+	margin: 5px;
+	font-family: 'Bebas Neue', cursive;
+	font-size: 2.5vh;
+	width: 45.5%;
+	background-color: transparent;
+	color: green;
+	border: none;
+	border-bottom: solid 1px;
+	cursor: pointer;
+}
+
+@keyframes animateDivOpen{
+	0% {
+		transform: scaleY(0);
+	}
+	100% {
+		transform: scaleY(1);
+	}
+}
+
+.withoutPlayers {
+	color: #7a7491;
+}
+.fullServer {
+	color: #de6f6f;
+}
